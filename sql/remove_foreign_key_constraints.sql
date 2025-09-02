@@ -1,0 +1,29 @@
+-- reviews 테이블의 외래키 제약조건 제거
+
+-- 1. 현재 외래키 제약조건 확인
+SELECT 
+    CONSTRAINT_NAME,
+    COLUMN_NAME,
+    REFERENCED_TABLE_NAME,
+    REFERENCED_COLUMN_NAME
+FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE 
+WHERE TABLE_NAME = 'reviews' 
+AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+-- 2. 외래키 제약조건 제거
+ALTER TABLE reviews DROP FOREIGN KEY reviews_ibfk_1;  -- tourId 제약조건
+ALTER TABLE reviews DROP FOREIGN KEY reviews_ibfk_2;  -- bookingId 제약조건  
+ALTER TABLE reviews DROP FOREIGN KEY reviews_ibfk_3;  -- userId 제약조건
+
+-- 3. 제약조건 제거 확인
+SELECT 
+    CONSTRAINT_NAME,
+    COLUMN_NAME,
+    REFERENCED_TABLE_NAME,
+    REFERENCED_COLUMN_NAME
+FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE 
+WHERE TABLE_NAME = 'reviews' 
+AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+-- 4. 테이블 구조 확인
+DESCRIBE reviews;
