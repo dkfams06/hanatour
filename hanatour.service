@@ -1,0 +1,21 @@
+[Unit]
+Description=Hanatour Next.js Application
+After=network.target mariadb.service
+Wants=mariadb.service
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/var/www/hana
+Environment=NODE_ENV=production
+Environment=PORT=3000
+ExecStart=/var/www/hana/start-server.sh
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=hanatour
+
+[Install]
+WantedBy=multi-user.target
